@@ -3629,7 +3629,9 @@
         };
 
         function rebuildAfterLoad() {
-          // nothing extra needed currently; placeholder for future migrations
+          if (state && state.listening) {
+            state.listening.currentlyPlaying = false;
+          }
         }
 
         /* ---------------- TIMER ENGINE ---------------- */
@@ -3864,6 +3866,7 @@
             return;
           }
           state.listening.currentlyPlaying = groupIdx;
+          save();
           renderAudioStatusBanner();
 
           if (audioEl) {
@@ -4014,6 +4017,42 @@
 
           var qtext = el("div", "qtext", item.text);
           panel.appendChild(qtext);
+
+          if (sec.key === "listening") {
+            var groupIdx = Math.floor(idx / 5);
+            var isLastOfGroup = (idx + 1) % 5 === 0;
+            if (isLastOfGroup && !state.listening.played[groupIdx]) {
+              if (!audioEl || audioEl.paused) {
+                var replayWrap = el("div", "audio-replay-container");
+                replayWrap.style.marginTop = "16px";
+                replayWrap.style.padding = "14px 18px";
+                replayWrap.style.background = "#fff6e0";
+                replayWrap.style.border = "1px solid var(--amber)";
+                replayWrap.style.borderRadius = "12px";
+                replayWrap.style.display = "flex";
+                replayWrap.style.alignItems = "center";
+                replayWrap.style.justifyContent = "space-between";
+                replayWrap.style.gap = "12px";
+
+                var replayText = el("div");
+                replayText.style.color = "#7a5a05";
+                replayText.style.fontSize = "13px";
+                replayText.innerHTML = "<b>Audio terhenti/belum selesai</b><br>Silakan putar kembali audio untuk menjawab rangkaian soal ini.";
+
+                var btnPlay = el("button", "btn btn-primary", "▶ Putar Audio " + (groupIdx + 1));
+                btnPlay.style.padding = "8px 16px";
+                btnPlay.style.fontSize = "13px";
+                btnPlay.onclick = function () {
+                  playGroupAudio(groupIdx);
+                  renderQuestionPanel();
+                };
+
+                replayWrap.appendChild(replayText);
+                replayWrap.appendChild(btnPlay);
+                panel.appendChild(replayWrap);
+              }
+            }
+          }
 
           var optList = el("div", "opt-list");
           var selected = state.answers[sec.key][item.id];
