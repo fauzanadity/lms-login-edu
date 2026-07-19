@@ -1,0 +1,45 @@
+LOGIN EDU — TRY OUT PRETEST #1
+================================
+
+CARA PAKAI
+1. Buka file "index.html" langsung dua kali klik (bisa 100% offline, tanpa internet, tanpa server).
+   - LaTeX (rumus matematika/fisika/kimia) sudah dirender pakai KaTeX yang di-embed
+     langsung di dalam file, jadi tidak perlu koneksi internet untuk itu.
+   - Logo "Login Edu" diambil dari URL Google (lh3.googleusercontent.com) yang Anda berikan.
+     Karena itu URL online (bukan file), logo HANYA akan muncul saat perangkat terhubung
+     internet. Jika offline, otomatis akan digantikan lingkaran inisial "LE" agar tampilan
+     tetap rapi. Jika ingin logo selalu muncul offline, ganti baris
+     src="https://lh3.googleusercontent.com/d/..." di index.html dengan file logo lokal,
+     misal src="images/logo.png".
+
+2. GAMBAR SOAL FISIKA
+   Di data JSON yang Anda kirim, field "image" hanya berisi NAMA FILE (bukan URL), contoh:
+   "FIS 01.png", "FIS 11.png", "FIS 13.png", "FIS 15.png", "FIS 03.png"
+   Karena bukan URL, saya tidak bisa mengambil gambar aslinya. Website ini sudah disiapkan
+   untuk membaca gambar dari folder "images/" di sebelah index.html, yaitu:
+     images/FIS 01.png
+     images/FIS 11.png
+     images/FIS 13.png
+     images/FIS 15.png
+     images/FIS 03.png
+   -> Silakan taruh 5 file gambar tersebut ke dalam folder "images" ini (nama harus persis sama).
+   Jika file belum ada, soal tetap tampil dengan keterangan "Gambar tidak ditemukan" (tidak error).
+
+3. SOAL YANG BELUM MASUK
+   Isi JSON yang Anda kirim terpotong di soal Fisika terakhir ("Balok m1 = 4 kg berada d...").
+   Karena datanya tidak lengkap, soal tersebut TIDAK saya masukkan. Total soal saat ini:
+     - Matematika : 15 soal
+     - Kimia      : 15 soal
+     - Fisika     : 13 soal (soal ke-14 yang terpotong belum termasuk)
+   Untuk menambah soal (termasuk soal Fisika yang terpotong tadi), buka index.html dengan
+   text editor, cari bagian "const EXAM_DATA = {" di dekat akhir file, lalu tambahkan objek
+   soal baru dengan format yang sama seperti soal lain di seksi yang sesuai.
+
+4. HASIL UJIAN
+   Data jawaban & waktu disimpan otomatis di localStorage browser (tidak hilang saat refresh,
+   tapi akan hilang jika membuka di device/browser lain atau membersihkan data browser).
+   Setelah submit, siswa mengisi Nama/Fakultas/Jurusan, lalu bisa mengunduh Kartu Hasil (PNG)
+   dan diarahkan ke Google Form untuk mengumpulkan hasilnya:
+   https://forms.gle/RjTQFjPS8rN4dePu6
+
+SELAMAT MENCOBA!
